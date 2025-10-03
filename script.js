@@ -1,24 +1,29 @@
 const quizData = [
   {
     question: "What does HTML stand for?",
-    options: ["Hyper Text Markup Language", "Home Tool Markup Language", "Hyperlinks and Text Markup Language", "High Tech Modern Language"],
-    answer: "Hyper Text Markup Language"
+    options: [
+      "Hyper Text Markup Language",
+      "Home Tool Markup Language",
+      "Hyperlinks and Text Markup Language",
+      "High Tech Modern Language",
+    ],
+    answer: "Hyper Text Markup Language",
   },
   {
     question: "Which language is used for styling web pages?",
     options: ["HTML", "JQuery", "CSS", "XML"],
-    answer: "CSS"
+    answer: "CSS",
   },
   {
     question: "Which is not a JavaScript Framework?",
     options: ["Python Script", "JQuery", "Django", "NodeJS"],
-    answer: "Django"
+    answer: "Django",
   },
   {
     question: "Which is used for Connect To Database?",
     options: ["PHP", "HTML", "JS", "All"],
-    answer: "PHP"
-  }
+    answer: "PHP",
+  },
 ];
 
 const questionEl = document.getElementById("question");
@@ -32,7 +37,7 @@ function loadQuestion() {
   questionEl.textContent = currentQuiz.question;
   optionsEl.innerHTML = "";
 
-  currentQuiz.options.forEach(option => {
+  currentQuiz.options.forEach((option) => {
     const li = document.createElement("li");
     li.textContent = option;
     optionsEl.appendChild(li);
@@ -55,7 +60,7 @@ let timer;
 let timeLeft = 15;
 
 function loadQuestion() {
-  clearInterval(timer);
+  if (timer) clearInterval(timer);
   timeLeft = 15;
   timerEl.textContent = `Time: ${timeLeft}s`;
   timer = setInterval(updateTimer, 1000);
@@ -64,7 +69,7 @@ function loadQuestion() {
   questionEl.textContent = currentQuiz.question;
   optionsEl.innerHTML = "";
 
-  currentQuiz.options.forEach(option => {
+  currentQuiz.options.forEach((option) => {
     const li = document.createElement("li");
     li.textContent = option;
     li.addEventListener("click", () => selectAnswer(li, currentQuiz.answer));
@@ -83,7 +88,7 @@ function updateTimer() {
 
 function selectAnswer(selected, correctAnswer) {
   const allOptions = document.querySelectorAll("#options li");
-  allOptions.forEach(option => option.style.pointerEvents = "none");
+  allOptions.forEach((option) => (option.style.pointerEvents = "none"));
 
   if (selected.textContent === correctAnswer) {
     selected.classList.add("correct");
@@ -91,7 +96,7 @@ function selectAnswer(selected, correctAnswer) {
     scoreEl.textContent = `Score: ${score}`;
   } else {
     selected.classList.add("wrong");
-    allOptions.forEach(option => {
+    allOptions.forEach((option) => {
       if (option.textContent === correctAnswer) option.classList.add("correct");
     });
   }
@@ -125,4 +130,3 @@ restartBtn.addEventListener("click", () => {
 });
 
 loadQuestion();
-
