@@ -47,4 +47,53 @@ nextBtn.addEventListener("click", () => {
 });
 
 loadQuestion();
+const timerEl = document.getElementById("timer");
+const scoreEl = document.getElementById("score");
+
+let score = 0;
+let timer;
+let timeLeft = 15;
+
+function loadQuestion() {
+  clearInterval(timer);
+  timeLeft = 15;
+  timerEl.textContent = `Time: ${timeLeft}s`;
+  timer = setInterval(updateTimer, 1000);
+
+  const currentQuiz = quizData[currentQuestion];
+  questionEl.textContent = currentQuiz.question;
+  optionsEl.innerHTML = "";
+
+  currentQuiz.options.forEach(option => {
+    const li = document.createElement("li");
+    li.textContent = option;
+    li.addEventListener("click", () => selectAnswer(li, currentQuiz.answer));
+    optionsEl.appendChild(li);
+  });
+}
+
+function updateTimer() {
+  timeLeft--;
+  timerEl.textContent = `Time: ${timeLeft}s`;
+  if (timeLeft <= 0) {
+    clearInterval(timer);
+    nextQuestion();
+  }
+}
+
+function selectAnswer(selected, correctAnswer) {
+  const allOptions = document.querySelectorAll("#options li");
+  allOptions.forEach(option => option.style.pointerEvents = "none");
+
+  if (selected.textContent === correctAnswer) {
+    selected.classList.add("correct");
+    score++;
+    scoreEl.textContent = `Score: ${score}`;
+  } else {
+    selected.classList.add("wrong");
+    allOptions.forEach(option => {
+      if (option.textContent === correctAnswer) option.classList.add("correct");
+    });
+  }
+}
 
