@@ -96,4 +96,33 @@ function selectAnswer(selected, correctAnswer) {
     });
   }
 }
+const resultEl = document.getElementById("result");
+const finalScoreEl = document.getElementById("final-score");
+const restartBtn = document.getElementById("restart-btn");
+
+function nextQuestion() {
+  currentQuestion++;
+  if (currentQuestion < quizData.length) {
+    loadQuestion();
+  } else {
+    endQuiz();
+  }
+}
+
+function endQuiz() {
+  document.getElementById("quiz").classList.add("hidden");
+  resultEl.classList.remove("hidden");
+  finalScoreEl.textContent = `${score} / ${quizData.length}`;
+}
+
+restartBtn.addEventListener("click", () => {
+  currentQuestion = 0;
+  score = 0;
+  scoreEl.textContent = "Score: 0";
+  document.getElementById("quiz").classList.remove("hidden");
+  resultEl.classList.add("hidden");
+  loadQuestion();
+});
+
+loadQuestion();
 
